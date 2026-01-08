@@ -56,7 +56,7 @@ const ProductList: React.FC = () => {
             <p className="text-[#d4af37] text-xs font-bold tracking-[0.5em] uppercase">{lang === 'ID' ? 'KATALOG' : 'CATALOG'}</p>
             <h1 className="text-6xl md:text-8xl font-luxury font-bold tracking-tighter leading-none uppercase">PRODUK <br/> DAIKIN</h1>
             <p className="text-xl text-gray-500 font-light leading-relaxed">
-              Inovasi tata udara mutakhir untuk masa depan yang lebih hijau dan efisien.
+             Inovasi HVAC untuk masa depan yang efisien dan berkelanjutan
             </p>
           </div>
         </div>

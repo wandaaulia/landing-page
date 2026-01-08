@@ -1,10 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, User, Calendar, Sparkles, X, FileText } from 'lucide-react';
+import { Plus, Edit2, Trash2, User, Calendar, X, FileText } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { Article } from '../types';
-import { generateContentHelp } from '../services/geminiService';
 import { supabase } from '../services/supabase';
 
 const quillModules = {
@@ -22,7 +21,6 @@ const ArticleManagement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [current, setCurrent] = useState<Partial<Article>>({});
-  const [isAIGenerating, setIsAIGenerating] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
@@ -148,7 +146,8 @@ const ArticleManagement: React.FC = () => {
       }
 
       const slug = generateSlug(current.title || '');
-      const readTime = calculateReadTime(current.content || '');
+      // Use user input read_time if provided, otherwise auto-calculate
+      const readTime = current.read_time || calculateReadTime(current.content || '');
       const articleData = {
         title: current.title,
         slug: slug,
@@ -225,14 +224,6 @@ const ArticleManagement: React.FC = () => {
       alert('An unexpected error occurred');
       console.error(err);
     }
-  };
-
-  const handleAIWriter = async () => {
-    if (!current.title) return alert("Please enter an article title first");
-    setIsAIGenerating(true);
-    const result = await generateContentHelp('Article Content', current.title, current.content);
-    setCurrent({ ...current, content: result || "" });
-    setIsAIGenerating(false);
   };
 
   return (
@@ -387,12 +378,7 @@ const ArticleManagement: React.FC = () => {
                     <textarea value={current.excerpt || ''} onChange={e => setCurrent({ ...current, excerpt: e.target.value })} rows={2} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none"></textarea>
                   </div>
                   <div className="space-y-2">
-                    <div className="flex justify-between items-center mb-1">
-                      <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Main Content</label>
-                      <button type="button" onClick={handleAIWriter} disabled={isAIGenerating} className="text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 px-4 py-2 rounded-full flex items-center gap-2 hover:bg-[#d4af37]/20 transition-all border border-[#d4af37]/20 shadow-[0_0_10px_rgba(212,175,55,0.1)]">
-                        <Sparkles size={14} className="animate-pulse" /> {isAIGenerating ? 'WRITING MASTERPIECE...' : 'AI CO-WRITER'}
-                      </button>
-                    </div>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Main Content</label>
                     <div className="bg-[#0a0a0a] rounded-xl overflow-hidden">
                       <ReactQuill
                         theme="snow"
@@ -436,6 +422,16 @@ const ArticleManagement: React.FC = () => {
                       <option value="Lifestyle">Lifestyle</option>
                       <option value="News">Corporate News</option>
                     </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Read Time</label>
+                    <input
+                      type="text"
+                      value={current.read_time || ''}
+                      onChange={e => setCurrent({ ...current, read_time: e.target.value })}
+                      className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
+                      placeholder="e.g., 5 min"
+                    />
                   </div>
                   <div className="p-6 bg-[#0a0a0a] border border-[#d4af37]/10 rounded-2xl space-y-4">
                     <h4 className="text-[10px] font-bold text-[#d4af37] uppercase tracking-widest">Publishing Details</h4>

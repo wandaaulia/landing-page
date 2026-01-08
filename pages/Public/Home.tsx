@@ -99,12 +99,16 @@ const Home: React.FC = () => {
   }, []);
 
   const brandLogos = [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Daikin_logo.svg/2560px-Daikin_logo.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mitsubishi_Electric_logo.svg/2560px-Mitsubishi_Electric_logo.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Panasonic_logo_%28Blue%29.svg/2560px-Panasonic_logo_%28Blue%29.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/LG_logo_%282015%29.svg/2560px-LG_logo_%282015%29.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Toshiba_logo.svg/2560px-Toshiba_logo.svg.png"
+    "/images/brandHonda.png", 
+    "/images/brandAlfa.png", 
+    "/images/brandBahtera.png", 
+       "/images/brandBimantara.png", 
+    "/images/brandCarefour.png", 
+    "/images/brandHK.png", 
+      "/images/brandMuhammadiyah.png", 
+        "/images/brandSumberWaras.png", 
+    "/images/brandSummarecon.png", 
+      "/images/brandTata.png", 
   ];
 
   const visibleTestimonials = testimonials.slice(testiIndex, testiIndex + 3);
@@ -332,26 +336,32 @@ const Home: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {visibleTestimonials.map((item) => (
-            <div key={item.id} className="flex flex-col text-left group">
-              <div className="flex gap-1 mb-6">
-                {[1, 2, 3, 4, 5].map(star => <Star key={star} size={14} fill="#d4af37" className="text-[#d4af37]" />)}
-              </div>
-              <blockquote className="text-lg font-light leading-relaxed text-gray-300 italic mb-8">
-                “{item.content}”
-              </blockquote>
-              <div className="w-full h-[1px] bg-[#d4af37] opacity-30 mb-8"></div>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 grayscale group-hover:grayscale-0 transition-all">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+          {visibleTestimonials.map((item) => {
+            const truncatedContent = item.content.length > 150
+              ? item.content.substring(0, 150) + '...'
+              : item.content;
+
+            return (
+              <div key={item.id} className="flex flex-col text-left group">
+                <div className="flex gap-1 mb-6">
+                  {[1, 2, 3, 4, 5].map(star => <Star key={star} size={14} fill="#d4af37" className="text-[#d4af37]" />)}
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-white uppercase tracking-widest">{item.name}</p>
-                  <p className="text-[12px] text-[#d4af37] italic mt-0.5">{item.role} — {item.company}</p>
+                <blockquote className="text-lg font-light leading-relaxed text-gray-300 italic mb-8">
+                  "{truncatedContent}"
+                </blockquote>
+                <div className="w-full h-[1px] bg-[#d4af37] opacity-30 mb-8"></div>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 grayscale group-hover:grayscale-0 transition-all">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-white uppercase tracking-widest">{item.name}</p>
+                    <p className="text-[12px] text-[#d4af37] italic mt-0.5">{item.role} — {item.company}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

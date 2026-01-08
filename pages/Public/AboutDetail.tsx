@@ -1,15 +1,29 @@
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Shield, Settings, ArrowUpRight, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LanguageContext } from '../../App';
-import { translations, mockData } from '../../services/supabase';
+import { translations, fetchAwards } from '../../services/supabase';
 import PublicNavbar from '../../components/PublicNavbar';
 import PublicFooter from '../../components/PublicFooter';
+import { Award as AwardType } from '../../types';
 
 const AboutDetail: React.FC = () => {
   const { lang } = useContext(LanguageContext);
   const t = translations[lang];
+  const [awards, setAwards] = useState<AwardType[]>([]);
+  const [loadingAwards, setLoadingAwards] = useState(true);
+
+  useEffect(() => {
+    const loadAwards = async () => {
+      const { data } = await fetchAwards();
+      if (data) {
+        setAwards(data);
+      }
+      setLoadingAwards(false);
+    };
+    loadAwards();
+  }, []);
 
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-white selection:bg-[#d4af37] selection:text-[#0a0a0a]">
@@ -19,7 +33,7 @@ const AboutDetail: React.FC = () => {
         <div className="space-y-6 text-left">
           <div className="space-y-4">
              <p className="text-[#d4af37] text-xs font-bold tracking-[0.5em] uppercase">{lang === 'ID' ? 'TENTANG KAMI' : 'ABOUT US'}</p>
-             <h1 className="text-5xl md:text-7xl font-luxury font-bold leading-[0.9] tracking-tighter">THE MASTER <br/> OF AIR</h1>
+             <h1 className="text-5xl md:text-7xl font-luxury font-bold leading-[0.9] tracking-tighter"> VISI KAMI</h1>
           </div>
           <p className="text-lg text-gray-400 font-light leading-relaxed border-l-4 border-[#d4af37]/40 pl-8 italic max-w-xl">
             "Didirikan dengan visi untuk merevolusi standar kenyamanan termal, PT Cipta Sejahtera Lestari hadir bukan hanya untuk menginstalasi unit, melainkan merancang ekosistem udara yang mendukung kesuksesan bisnis Anda."
@@ -52,14 +66,20 @@ const AboutDetail: React.FC = () => {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {mockData.awards.slice(0, 3).map(a => (
-              <div key={a.id} className="p-8 bg-[#111] rounded-[32px] border border-white/5 text-left group hover:border-[#d4af37]/40 transition-all">
-                <Award size={32} className="text-[#d4af37] mb-6" />
-                <p className="text-xs font-bold gold-text mb-2">{a.year}</p>
-                <h4 className="text-lg font-luxury font-bold uppercase mb-2">{a.name}</h4>
-                <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase">{a.institution}</p>
+            {loadingAwards ? (
+              <div className="col-span-3 flex items-center justify-center py-12">
+                <div className="w-12 h-12 border-4 border-[#d4af37]/20 border-t-[#d4af37] rounded-full animate-spin"></div>
               </div>
-            ))}
+            ) : (
+              awards.slice(0, 3).map(a => (
+                <div key={a.id} className="p-8 bg-[#111] rounded-[32px] border border-white/5 text-left group hover:border-[#d4af37]/40 transition-all">
+                  <Award size={32} className="text-[#d4af37] mb-6" />
+                  <p className="text-xs font-bold gold-text mb-2">{a.year}</p>
+                  <h4 className="text-lg font-luxury font-bold uppercase mb-2">{a.name}</h4>
+                  <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase">{a.institution}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>

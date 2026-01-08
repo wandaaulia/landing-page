@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Edit2, Trash2, MapPin, Sparkles, X, Image as ImageIcon } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, MapPin, X, Image as ImageIcon } from 'lucide-react';
 import { Portfolio } from '../types';
-import { generateContentHelp } from '../services/geminiService';
 import { supabase } from '../services/supabase';
 
 const PortfolioManagement: React.FC = () => {
@@ -10,7 +9,6 @@ const PortfolioManagement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [current, setCurrent] = useState<Partial<Portfolio>>({});
-  const [isAIGenerating, setIsAIGenerating] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
@@ -205,17 +203,18 @@ const PortfolioManagement: React.FC = () => {
     }
   };
 
-  const handleAIWriter = async () => {
-    if (!current.title) return alert("Please enter a title first");
-    setIsAIGenerating(true);
-    const result = await generateContentHelp('Portfolio Summary', current.title, current.summary);
-    setCurrent({ ...current, summary: result || "" });
-    setIsAIGenerating(false);
-  };
-
   const filteredPortfolios = categoryFilter === 'All'
     ? portfolios
     : portfolios.filter(p => p.category === categoryFilter);
+
+  // Get unique categories from portfolios
+  const categories = ['All', ...Array.from(new Set(portfolios.map(p => p.category)))];
+
+  // Count portfolios per category
+  const getCategoryCount = (category: string) => {
+    if (category === 'All') return portfolios.length;
+    return portfolios.filter(p => p.category === category).length;
+  };
 
   return (
     <div className="space-y-6">
@@ -241,10 +240,11 @@ const PortfolioManagement: React.FC = () => {
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="bg-[#0a0a0a] border border-[#d4af37]/10 rounded-lg px-4 py-2 text-sm font-bold text-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
           >
-            <option value="All">All Categories</option>
-            <option value="Residential">Residential</option>
-            <option value="Commercial">Commercial</option>
-            <option value="Industrial">Industrial</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat === 'All' ? 'All Categories' : cat} ({getCategoryCount(cat)})
+              </option>
+            ))}
           </select>
           <span className="text-xs text-gray-500 ml-auto">
             Showing {filteredPortfolios.length} of {portfolios.length} projects
@@ -361,12 +361,7 @@ const PortfolioManagement: React.FC = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Project Summary</label>
-                    <button type="button" onClick={handleAIWriter} disabled={isAIGenerating} className="text-[10px] font-bold text-[#d4af37] bg-[#d4af37]/10 px-3 py-1.5 rounded-full flex items-center gap-1 hover:bg-[#d4af37]/20 transition-all">
-                      <Sparkles size={12} /> {isAIGenerating ? 'REFINING...' : 'AI ASSIST'}
-                    </button>
-                  </div>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Project Summary</label>
                   <textarea value={current.summary || ''} onChange={e => setCurrent({...current, summary: e.target.value})} rows={4} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm resize-none"></textarea>
                 </div>
                 <div className="space-y-2">

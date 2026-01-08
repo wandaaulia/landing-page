@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Save, History as HistoryIcon, Award, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { Save, History as HistoryIcon, Award, Image as ImageIcon } from 'lucide-react';
 import { supabase } from '../services/supabase';
 
 interface AboutData {
@@ -200,13 +200,7 @@ const AboutManagement: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div className="space-y-2">
-                <div className="flex justify-between items-center mb-1">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Main About Text</label>
-                  <button className="flex items-center gap-1.5 text-[10px] font-bold bg-[#d4af37]/20 text-[#d4af37] px-3 py-1.5 rounded-full hover:bg-[#d4af37]/30 transition-all border border-[#d4af37]/20">
-                    <Sparkles size={12} />
-                    AI REFINE
-                  </button>
-                </div>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Main About Text</label>
                 <textarea
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-2xl p-6 text-sm text-gray-300 leading-relaxed focus:outline-none focus:ring-1 focus:ring-[#d4af37] min-h-[400px]"
                   value={aboutData.content}

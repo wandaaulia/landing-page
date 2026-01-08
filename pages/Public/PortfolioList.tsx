@@ -48,8 +48,7 @@ const PortfolioList: React.FC = () => {
             <p className="text-[#d4af37] text-xs font-bold tracking-[0.5em] uppercase">{lang === 'ID' ? 'PORTOFOLIO KAMI' : 'OUR PORTFOLIO'}</p>
             <h1 className="text-6xl md:text-8xl font-luxury font-bold tracking-tighter leading-none uppercase">CASE <br/> STUDIES</h1>
             <p className="text-xl text-gray-500 font-light leading-relaxed">
-              Documenting Daikin Proshop's technical excellence across every project.
-            </p>
+Menampilkan keunggulan teknis PT Cipta Sejahtera Lestari dalam setiap proyek            </p>
           </div>
         </div>
       </section>

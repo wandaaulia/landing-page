@@ -58,7 +58,6 @@ const ArticleDetail: React.FC = () => {
   const sections = [
     { id: 'summary', name: 'Ringkasan' },
     { id: 'body', name: 'Analisis Teknis' },
-    { id: 'conclusion', name: 'Kesimpulan' }
   ];
 
   const handleShare = () => {
@@ -105,7 +104,7 @@ const ArticleDetail: React.FC = () => {
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest">{article.author}</p>
-                <p className="text-[9px] text-gray-500 tracking-[0.2em] uppercase mt-0.5">Editor Senior</p>
+                <p className="text-[9px] text-gray-500 tracking-[0.2em] uppercase mt-0.5">Editor</p>
               </div>
             </div>
             <div className="h-8 w-[1px] bg-gray-800 hidden md:block"></div>
@@ -159,13 +158,7 @@ const ArticleDetail: React.FC = () => {
             </div>
           </section>
 
-          {/* Conclusion */}
-          <section id="conclusion" className="space-y-6 scroll-mt-32">
-            <h3 className="text-2xl font-luxury font-bold gold-text uppercase tracking-widest">Kesimpulan</h3>
-            <p className="text-lg text-gray-300 font-light leading-relaxed">
-               Memilih sistem HVAC yang tepat adalah investasi strategis jangka panjang. Daikin Proshop CSL berkomitmen memberikan solusi yang tidak hanya dingin, tapi sehat dan efisien untuk masa depan gedung Anda.
-            </p>
-          </section>
+
 
           {/* Next Articles */}
           <section className="pt-20 border-t border-white/5 space-y-12">

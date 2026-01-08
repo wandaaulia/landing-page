@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Image as ImageIcon, Sparkles, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Image as ImageIcon, X } from 'lucide-react';
 import { Product } from '../types';
-import { generateContentHelp } from '../services/geminiService';
 import { supabase } from '../services/supabase';
 
 const ProductManagement: React.FC = () => {
@@ -10,7 +9,6 @@ const ProductManagement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
-  const [isAIGenerating, setIsAIGenerating] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
@@ -200,17 +198,18 @@ const ProductManagement: React.FC = () => {
     }
   };
 
-  const handleAIWriter = async () => {
-    if (!currentProduct.name) return alert("Please enter a product name first");
-    setIsAIGenerating(true);
-    const result = await generateContentHelp('Product Description', currentProduct.name, currentProduct.description);
-    setCurrentProduct({ ...currentProduct, description: result || "" });
-    setIsAIGenerating(false);
-  };
-
   const filteredProducts = categoryFilter === 'All'
     ? products
     : products.filter(p => p.category === categoryFilter);
+
+  // Get unique categories from products
+  const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
+
+  // Count products per category
+  const getCategoryCount = (category: string) => {
+    if (category === 'All') return products.length;
+    return products.filter(p => p.category === category).length;
+  };
 
   return (
     <div className="space-y-6">
@@ -236,12 +235,11 @@ const ProductManagement: React.FC = () => {
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="bg-[#0a0a0a] border border-[#d4af37]/10 rounded-lg px-4 py-2 text-sm font-bold text-[#d4af37] focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
           >
-            <option value="All">All Categories</option>
-            <option value="Single-Split">Single-Split</option>
-            <option value="Multi-Split">Multi-Split</option>
-            <option value="VRV">VRV</option>
-            <option value="Ducted">Ducted</option>
-            <option value="Cassette">Cassette</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat === 'All' ? 'All Categories' : cat} ({getCategoryCount(cat)})
+              </option>
+            ))}
           </select>
           <span className="text-xs text-gray-500 ml-auto">
             Showing {filteredProducts.length} of {products.length} products
@@ -349,27 +347,15 @@ const ProductManagement: React.FC = () => {
                     onChange={(e) => setCurrentProduct({ ...currentProduct, category: e.target.value })}
                     className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
                   >
-                    <option value="Single-Split">Single-Split</option>
-                    <option value="Multi-Split">Multi-Split</option>
-                    <option value="VRV System">VRV System</option>
-                    <option value="Elite Series">Elite Series</option>
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Industrial Cooling">Industrial Cooling</option>
                   </select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <div className="flex justify-between items-center mb-1">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Product Description</label>
-                  <button
-                    type="button"
-                    onClick={handleAIWriter}
-                    disabled={isAIGenerating}
-                    className="flex items-center gap-1.5 text-[10px] font-bold bg-[#d4af37]/20 text-[#d4af37] px-3 py-1.5 rounded-full hover:bg-[#d4af37]/30 transition-all border border-[#d4af37]/20"
-                  >
-                    <Sparkles size={12} />
-                    {isAIGenerating ? 'REFINING...' : 'AI WRITER ASSIST'}
-                  </button>
-                </div>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Product Description</label>
                 <textarea
                   rows={5}
                   value={currentProduct.description || ''}

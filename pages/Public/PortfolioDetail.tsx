@@ -66,16 +66,7 @@ const PortfolioDetail: React.FC = () => {
               <h1 className="text-5xl md:text-7xl font-luxury font-bold leading-tight uppercase tracking-tighter">{project.title}</h1>
               <p className="text-xl text-gray-400 font-light italic leading-relaxed border-l-4 border-[#d4af37]/40 pl-8">"{project.summary}"</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-8">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-luxury font-bold gold-text uppercase tracking-widest">{lang === 'ID' ? 'TANTANGAN' : 'CHALLENGE'}</h3>
-                <p className="text-lg text-gray-400 font-light leading-relaxed">{project.challenge}</p>
-              </div>
-              <div className="space-y-6">
-                <h3 className="text-2xl font-luxury font-bold gold-text uppercase tracking-widest">{lang === 'ID' ? 'SOLUSI' : 'SOLUTION'}</h3>
-                <p className="text-lg text-gray-400 font-light leading-relaxed">{project.solution}</p>
-              </div>
-            </div>
+           
           </div>
           
           <aside>
