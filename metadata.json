@@ -1,0 +1,8 @@
+
+{
+  "name": "Daikin Proshop - PT Cipta Sejahtera Lestari CMS",
+  "description": "Premium HVAC Solution Platform for Indonesia's first Daikin Proshop dealer.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
