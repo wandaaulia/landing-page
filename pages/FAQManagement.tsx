@@ -195,7 +195,7 @@ const FAQManagement: React.FC = () => {
                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Question</label>
                 <input
                   value={current.q || ''}
-                  onChange={e => setCurrent({...current, q: e.target.value})}
+                  onChange={e => setCurrent({ ...current, q: e.target.value })}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                   placeholder="Enter the question..."
                   required
@@ -205,7 +205,7 @@ const FAQManagement: React.FC = () => {
                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Answer</label>
                 <textarea
                   value={current.a || ''}
-                  onChange={e => setCurrent({...current, a: e.target.value})}
+                  onChange={e => setCurrent({ ...current, a: e.target.value })}
                   rows={6}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm resize-none focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                   placeholder="Enter the answer..."
@@ -217,7 +217,7 @@ const FAQManagement: React.FC = () => {
                 <input
                   type="number"
                   value={current.order || ''}
-                  onChange={e => setCurrent({...current, order: parseInt(e.target.value)})}
+                  onChange={e => setCurrent({ ...current, order: parseInt(e.target.value) })}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                   placeholder="1"
                   min="1"

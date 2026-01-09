@@ -6,16 +6,6 @@ import 'react-quill-new/dist/quill.snow.css';
 import { Article } from '../types';
 import { supabase } from '../services/supabase';
 
-const quillModules = {
-  toolbar: [
-    [{ 'header': [1, 2, 3, false] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    ['link', 'blockquote'],
-    ['clean']
-  ],
-};
-
 const ArticleManagement: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,6 +14,59 @@ const ArticleManagement: React.FC = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
+
+  const quillRef = React.useRef<any>(null);
+
+  // Quill Image Handler
+  const imageHandler = React.useCallback(() => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (file) {
+        try {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Date.now()}.${fileExt}`;
+          const filePath = `article-content/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from('images')
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const { data: urlData } = supabase.storage
+            .from('images')
+            .getPublicUrl(filePath);
+
+          const quill = quillRef.current.getEditor();
+          const range = quill.getSelection();
+          quill.insertEmbed(range?.index || 0, 'image', urlData.publicUrl);
+        } catch (error) {
+          console.error('Error uploading editor image:', error);
+          alert('Failed to upload image to editor');
+        }
+      }
+    };
+  }, []);
+
+  const quillModules = React.useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['link', 'image', 'blockquote'],
+        ['clean']
+      ],
+      handlers: {
+        image: imageHandler
+      }
+    }
+  }), [imageHandler]);
 
   // Load articles from Supabase
   useEffect(() => {
@@ -381,6 +424,7 @@ const ArticleManagement: React.FC = () => {
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Main Content</label>
                     <div className="bg-[#0a0a0a] rounded-xl overflow-hidden">
                       <ReactQuill
+                        ref={quillRef}
                         theme="snow"
                         value={current.content || ''}
                         onChange={(content) => setCurrent({ ...current, content: content })}

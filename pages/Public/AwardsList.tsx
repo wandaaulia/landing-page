@@ -30,27 +30,31 @@ const AwardsList: React.FC = () => {
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-white selection:bg-[#d4af37] selection:text-[#0a0a0a]">
       <PublicNavbar />
-      
-      <section className="pt-48 pb-12 px-8 border-b border-[#d4af37]/10">
-        <div className="max-w-[85%] mx-auto text-left">
+
+      <section className="pt-48 pb-12 border-b border-[#d4af37]/10">
+        <div className="w-[90%] md:w-[80%] mx-auto px-3 md:px-8 text-left">
           <div className="space-y-4 max-w-4xl">
+
             <p className="text-[#d4af37] text-xs font-bold tracking-[0.5em] uppercase">RECOGNITION</p>
-            <h1 className="text-6xl md:text-8xl font-luxury font-bold tracking-tighter leading-none uppercase">PENGHARGAAN & <br/> SERTIFIKASI</h1>
+            <h1 className="text-4xl md:text-6xl font-luxury font-bold tracking-tighter uppercase leading-tight max-w-4xl">
+              PENGHARGAAN
+            </h1>
+
             <p className="text-xl text-gray-500 font-light leading-relaxed">
-               Awards represent our recognition of quality, professionalism, and strict compliance with global Daikin standards.
+              Awards represent our recognition of quality, professionalism, and strict compliance with global Daikin standards.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-24 px-8">
+      <section className="py-24">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="w-12 h-12 border-4 border-[#d4af37]/20 border-t-[#d4af37] rounded-full animate-spin"></div>
           </div>
         ) : (
           <>
-            <div className="max-w-[85%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div className="w-[90%] md:w-[80%] mx-auto px-3 md:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
               {paginatedAwards.map((a) => (
                 <div key={a.id} className="p-12 bg-[#111] rounded-[40px] border border-white/5 text-left group hover:border-[#d4af37]/40 transition-all">
                   <div className="w-16 h-16 bg-black border border-[#d4af37]/20 rounded-2xl flex items-center justify-center text-[#d4af37] mb-10 group-hover:bg-[#d4af37] group-hover:text-[#0a0a0a] transition-all">

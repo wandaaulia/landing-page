@@ -89,13 +89,13 @@ const ArticleDetail: React.FC = () => {
       <PublicNavbar />
 
       {/* Header Info */}
-      <header className="pt-48 pb-12 px-8 max-w-[80%] mx-auto">
-        <Link to="/articles" className="flex items-center gap-3 text-[#d4af37] text-[10px] font-bold tracking-[0.3em] mb-12 hover:gap-6 transition-all uppercase">
+      <header className="pt-48 pb-12 w-[90%] md:w-[80%] mx-auto px-3 md:px-8 text-left">
+        <Link to="/articles" className="inline-flex items-center gap-3 text-[#d4af37] text-[10px] font-bold tracking-[0.3em] mb-12 hover:gap-6 transition-all uppercase">
           <ArrowLeft size={16} /> Kembali ke Artikel
         </Link>
         <span className="text-[#d4af37] text-[11px] font-bold tracking-[0.5em] uppercase mb-6 block opacity-80">{article.category}</span>
-        <h1 className="text-5xl md:text-7xl font-luxury font-bold mb-10 leading-[1.1]">{article.title}</h1>
-        
+        <h1 className="text-4xl md:text-7xl font-luxury font-bold mb-10 leading-[1.1] uppercase">{article.title}</h1>
+
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-8 border-t border-[#d4af37]/10">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-4">
@@ -110,19 +110,19 @@ const ArticleDetail: React.FC = () => {
             <div className="h-8 w-[1px] bg-gray-800 hidden md:block"></div>
             <div className="flex items-center gap-3 text-gray-400 text-[10px] font-bold tracking-widest uppercase">
               <Clock size={14} className="text-[#d4af37]" />
-              <span>{article.read_time} Baca</span>
+              <span>{article.read_time || '5 MIN'} BACA</span>
             </div>
           </div>
-          
+
           <div className="flex gap-4 self-end">
-            <button 
+            <button
               onClick={handleShare}
               className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[#d4af37] hover:text-[#0a0a0a] transition-all"
               title="Bagikan Artikel"
             >
               <Send size={18} />
             </button>
-            <button 
+            <button
               onClick={handleDownload}
               className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[#d4af37] hover:text-[#0a0a0a] transition-all"
               title="Unduh PDF"
@@ -133,7 +133,7 @@ const ArticleDetail: React.FC = () => {
         </div>
       </header>
 
-      <div className="max-w-[80%] mx-auto px-8 grid grid-cols-1 lg:grid-cols-4 gap-20 pb-32">
+      <div className="w-[90%] md:w-[80%] mx-auto px-3 md:px-8 grid grid-cols-1 lg:grid-cols-4 gap-12 md:gap-20 pb-32">
         {/* Main Content Area */}
         <div className="lg:col-span-3 space-y-16">
           {/* Summary */}
@@ -144,17 +144,12 @@ const ArticleDetail: React.FC = () => {
           </section>
 
           {/* Body Content */}
-          <section id="body" className="space-y-12 scroll-mt-32">
-            <div className="prose prose-invert max-w-none text-lg text-gray-400 font-light leading-relaxed space-y-8">
-               <p>
-                  PT Cipta Sejahtera Lestari memahami bahwa di era pasca-pandemi, sistem tata udara bukan lagi sekadar alat pendingin ruangan. Ia adalah benteng pertahanan pertama dalam menjaga kesehatan dan produktivitas karyawan di lingkungan korporat.
-               </p>
-               <div className="my-12 aspect-video rounded-3xl overflow-hidden border border-white/5">
-                  <img src={article.image_path} alt="Analisis Teknis" className="w-full h-full object-cover grayscale opacity-80" />
-               </div>
-               <p>
-                  Integrasi teknologi sensor pintar dan filtrasi udara tingkat tinggi (HEPA) telah terbukti mengurangi tingkat absensi karyawan hingga 15%. Dengan menggunakan sistem VRV A Series, perusahaan dapat mengatur zona pendinginan secara spesifik, yang berarti penghematan energi tanpa mengorbankan kenyamanan di area yang aktif.
-               </p>
+          <section id="body" className="scroll-mt-32">
+            <div className="prose prose-invert max-w-none text-gray-400 font-light leading-relaxed">
+              <div
+                className="article-rich-text text-base md:text-lg space-y-6 break-words overflow-hidden [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-2xl"
+                dangerouslySetInnerHTML={{ __html: article.content }}
+              />
             </div>
           </section>
 
@@ -162,21 +157,21 @@ const ArticleDetail: React.FC = () => {
 
           {/* Next Articles */}
           <section className="pt-20 border-t border-white/5 space-y-12">
-             <div className="flex justify-between items-end">
-                <h4 className="text-2xl font-luxury font-bold uppercase tracking-widest">Artikel Selanjutnya</h4>
-                <Link to="/articles" className="text-[10px] font-bold text-[#d4af37] tracking-widest uppercase">Lihat Semua</Link>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {nextArticles.map(a => (
-                  <Link to={`/article/${a.slug}`} key={a.id} className="group bg-[#111] p-8 rounded-3xl border border-white/5 hover:border-[#d4af37]/20 transition-all">
-                    <p className="text-[9px] text-[#d4af37] font-bold tracking-widest uppercase mb-4">{a.category}</p>
-                    <h5 className="text-xl font-luxury font-bold group-hover:text-[#d4af37] transition-colors line-clamp-2 uppercase">{a.title}</h5>
-                    <div className="mt-6 flex items-center gap-2 text-[10px] text-gray-500 font-bold tracking-widest uppercase">
-                       BACA <ChevronRight size={14} />
-                    </div>
-                  </Link>
-                ))}
-             </div>
+            <div className="flex justify-between items-end">
+              <h4 className="text-2xl font-luxury font-bold uppercase tracking-widest">Artikel Selanjutnya</h4>
+              <Link to="/articles" className="text-[10px] font-bold text-[#d4af37] tracking-widest uppercase">Lihat Semua</Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {nextArticles.map(a => (
+                <Link to={`/article/${a.slug}`} key={a.id} className="group bg-[#111] p-8 rounded-3xl border border-white/5 hover:border-[#d4af37]/20 transition-all">
+                  <p className="text-[9px] text-[#d4af37] font-bold tracking-widest uppercase mb-4">{a.category}</p>
+                  <h5 className="text-xl font-luxury font-bold group-hover:text-[#d4af37] transition-colors line-clamp-2 uppercase">{a.title}</h5>
+                  <div className="mt-6 flex items-center gap-2 text-[10px] text-gray-500 font-bold tracking-widest uppercase">
+                    BACA <ChevronRight size={14} />
+                  </div>
+                </Link>
+              ))}
+            </div>
           </section>
         </div>
 
@@ -188,7 +183,7 @@ const ArticleDetail: React.FC = () => {
               <ul className="space-y-4 text-left">
                 {sections.map(s => (
                   <li key={s.id}>
-                    <button 
+                    <button
                       onClick={() => scrollToSection(s.id)}
                       className="text-[10px] text-gray-500 hover:text-[#d4af37] transition-all flex items-center gap-4 group uppercase font-bold tracking-widest"
                     >

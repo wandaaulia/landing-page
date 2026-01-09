@@ -26,9 +26,8 @@ const PublicNavbar: React.FC = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      isScrolled ? 'bg-[#0a0a0a]/95 backdrop-blur-md border-b border-[#d4af37]/20 py-3' : 'bg-transparent py-8'
-    }`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-[#0a0a0a]/95 backdrop-blur-md border-b border-[#d4af37]/20 py-3' : 'bg-transparent py-8'
+      }`}>
       <div className="max-w-[85%] mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 gold-gradient rounded-full flex items-center justify-center text-[#0a0a0a] font-bold font-luxury text-xl">D</div>
@@ -44,7 +43,7 @@ const PublicNavbar: React.FC = () => {
             <button onClick={() => handleLinkClick('/')} className={`text-[10px] font-bold tracking-[0.2em] transition-colors uppercase ${location.pathname === '/' ? 'text-[#d4af37]' : 'text-gray-400 hover:text-[#d4af37]'}`}>
               {t.nav.home}
             </button>
-            
+
             {/* Direct Link to About - Dropdown Removed */}
             <button onClick={() => handleLinkClick('/about')} className={`text-[10px] font-bold tracking-[0.2em] transition-colors uppercase ${location.pathname.includes('/about') ? 'text-[#d4af37]' : 'text-gray-400 hover:text-[#d4af37]'}`}>
               {t.nav.about}
@@ -63,7 +62,7 @@ const PublicNavbar: React.FC = () => {
               {t.nav.contact}
             </button>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <button onClick={() => setLang('ID')} className={`text-[10px] font-bold ${lang === 'ID' ? 'text-[#d4af37]' : 'text-gray-500'}`}>ID</button>

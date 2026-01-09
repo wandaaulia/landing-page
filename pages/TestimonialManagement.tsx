@@ -284,7 +284,7 @@ const TestimonialManagement: React.FC = () => {
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Full Name</label>
                     <input
                       value={current.name || ''}
-                      onChange={e => setCurrent({...current, name: e.target.value})}
+                      onChange={e => setCurrent({ ...current, name: e.target.value })}
                       className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                       required
                     />
@@ -293,7 +293,7 @@ const TestimonialManagement: React.FC = () => {
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Role / Position</label>
                     <input
                       value={current.role || ''}
-                      onChange={e => setCurrent({...current, role: e.target.value})}
+                      onChange={e => setCurrent({ ...current, role: e.target.value })}
                       className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                     />
                   </div>
@@ -301,7 +301,7 @@ const TestimonialManagement: React.FC = () => {
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Company</label>
                     <input
                       value={current.company || ''}
-                      onChange={e => setCurrent({...current, company: e.target.value})}
+                      onChange={e => setCurrent({ ...current, company: e.target.value })}
                       className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                     />
                   </div>
@@ -333,7 +333,7 @@ const TestimonialManagement: React.FC = () => {
                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Testimonial Content</label>
                 <textarea
                   value={current.content || ''}
-                  onChange={e => setCurrent({...current, content: e.target.value})}
+                  onChange={e => setCurrent({ ...current, content: e.target.value })}
                   rows={5}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm resize-none focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                   placeholder="Write testimonial content here..."

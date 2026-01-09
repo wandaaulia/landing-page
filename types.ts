@@ -43,7 +43,9 @@ export interface Product {
   category: string;
   image_path: string;
   description: string;
-  features: string[]; // JSON in DB
+  features: string[]; // JSON in DB (simple tags)
+  detailed_features?: { name: string; desc: string }[]; // JSON in DB (rich content)
+  ideal_applications?: { icon: string; title: string; desc: string }[]; // JSON in DB
   created_at?: string;
   updated_at?: string;
 }

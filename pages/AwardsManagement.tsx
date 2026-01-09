@@ -206,7 +206,7 @@ const AwardsManagement: React.FC = () => {
                 <input
                   type="text"
                   value={current.year || ''}
-                  onChange={e => setCurrent({...current, year: e.target.value})}
+                  onChange={e => setCurrent({ ...current, year: e.target.value })}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                   placeholder="e.g., 2024"
                   required
@@ -216,7 +216,7 @@ const AwardsManagement: React.FC = () => {
                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Award Name</label>
                 <input
                   value={current.name || ''}
-                  onChange={e => setCurrent({...current, name: e.target.value})}
+                  onChange={e => setCurrent({ ...current, name: e.target.value })}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                   placeholder="e.g., Million Dollar Award"
                   required
@@ -226,7 +226,7 @@ const AwardsManagement: React.FC = () => {
                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Institution</label>
                 <input
                   value={current.institution || ''}
-                  onChange={e => setCurrent({...current, institution: e.target.value})}
+                  onChange={e => setCurrent({ ...current, institution: e.target.value })}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none"
                   placeholder="e.g., Daikin Indonesia"
                   required

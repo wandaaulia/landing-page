@@ -70,11 +70,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
-                  isActive 
-                    ? 'bg-[#d4af37] text-[#0a0a0a] shadow-[0_0_15px_rgba(212,175,55,0.3)]' 
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${isActive
+                    ? 'bg-[#d4af37] text-[#0a0a0a] shadow-[0_0_15px_rgba(212,175,55,0.3)]'
                     : 'text-gray-400 hover:text-[#d4af37] hover:bg-[#d4af37]/10'
-                }`}
+                  }`}
               >
                 {item.icon}
                 <span className="text-sm font-medium">{item.name}</span>
@@ -85,7 +84,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </nav>
 
         <div className="p-4 border-t border-[#d4af37]/20">
-          <button 
+          <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 w-full text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
           >

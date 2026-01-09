@@ -93,28 +93,40 @@ const Home: React.FC = () => {
     loadAllData();
   }, []);
 
+  const [itemsToShow, setItemsToShow] = useState(3);
+
   useEffect(() => {
     const timer = setInterval(() => setHeroSlide(prev => (prev + 1) % heroImages.length), 5000);
-    return () => clearInterval(timer);
+
+    const handleResize = () => {
+      setItemsToShow(window.innerWidth < 768 ? 1 : 3);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const brandLogos = [
-    "/images/brandHonda.png", 
-    "/images/brandAlfa.png", 
-    "/images/brandBahtera.png", 
-       "/images/brandBimantara.png", 
-    "/images/brandCarefour.png", 
-    "/images/brandHK.png", 
-      "/images/brandMuhammadiyah.png", 
-        "/images/brandSumberWaras.png", 
-    "/images/brandSummarecon.png", 
-      "/images/brandTata.png", 
+    "/images/brandHonda.png",
+    "/images/brandAlfa.png",
+    "/images/brandBahtera.png",
+    "/images/brandBimantara.png",
+    "/images/brandCarefour.png",
+    "/images/brandHK.png",
+    "/images/brandMuhammadiyah.png",
+    "/images/brandSumberWaras.png",
+    "/images/brandSummarecon.png",
+    "/images/brandTata.png",
   ];
 
-  const visibleTestimonials = testimonials.slice(testiIndex, testiIndex + 3);
+  const visibleTestimonials = testimonials.slice(testiIndex, testiIndex + itemsToShow);
 
   const nextTesti = () => {
-    if (testiIndex + 3 < testimonials.length) {
+    if (testiIndex + itemsToShow < testimonials.length) {
       setTestiIndex(testiIndex + 1);
     }
   };
@@ -130,7 +142,7 @@ const Home: React.FC = () => {
       <PublicNavbar />
 
       {/* Hero */}
-      <section className="relative h-[90vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh] flex items-center overflow-hidden pb-8">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/60 z-10"></div>
           {heroImages.map((img, idx) => (
@@ -143,8 +155,8 @@ const Home: React.FC = () => {
             />
           ))}
         </div>
-        <div className="relative z-20 w-full px-8 md:px-[10%] pt-40">
-          <div className="max-w-4xl space-y-8">
+        <div className="relative z-20 w-[90%] md:w-[80%] mx-auto px-3 md:px-8 pt-32 md:pt-40 pb-8">
+          <div className="max-w-4xl space-y-6 md:space-y-8">
             <div className="inline-flex items-center gap-4">
               <div className="h-[1px] w-12 bg-[#d4af37]"></div>
               <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.6em] uppercase">Million Dollar Award</p>
@@ -154,7 +166,7 @@ const Home: React.FC = () => {
             </h1>
             <p className="max-w-xl text-gray-400 text-lg font-light leading-relaxed">{t.hero.sub}</p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <a href="https://wa.me/62811102977" className="gold-gradient px-12 py-4 rounded-full text-[#0a0a0a] font-bold text-[11px] tracking-[0.2em] uppercase shadow-2xl hover:scale-105 transition-all">
+              <a href="https://wa.me/62811102977" className="text-center gold-gradient px-12 py-4 rounded-full text-[#0a0a0a] font-bold text-[11px] tracking-[0.2em] uppercase shadow-2xl hover:scale-105 transition-all">
                 {lang === 'ID' ? 'MULAI KONSULTASI' : 'START CONSULTING'}
               </a>
               <Link to="/portfolio" className="px-12 py-4 rounded-full border border-white/20 text-white font-bold text-[11px] tracking-[0.2em] hover:bg-white/5 transition-all flex items-center justify-center uppercase">
@@ -177,12 +189,12 @@ const Home: React.FC = () => {
       </section>
 
       {/* TENTANG KAMI */}
-      <section id="about" className="py-12 px-8 max-w-[80%] mx-auto">
+      <section id="about" className="py-12 w-[90%] md:w-[80%] mx-auto px-3 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6 text-left">
             <div className="space-y-2">
               <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.4em] uppercase">{t.nav.about}</p>
-              <h2 className="text-5xl font-luxury font-bold leading-tight uppercase">PENGALAMAN & KREDIBILITAS</h2>
+              <h2 className="normal-case text-4xl md:text-5xl font-luxury font-bold leading-tight">Pengalaman & Kredibilitas</h2>
             </div>
             <p className="text-gray-400 text-lg leading-relaxed font-light">
               Sebagai dealer Daikin Proshop pertama di Indonesia, PT Cipta Sejahtera Lestari telah mendedikasikan lebih dari tiga dekade untuk merancang solusi tata udara yang meningkatkan efisiensi operasional dan kualitas hidup di berbagai sektor industri.
@@ -211,11 +223,11 @@ const Home: React.FC = () => {
 
       {/* PRODUK UNGGULAN */}
       <section id="products" className="py-12 bg-black/50 border-y border-[#d4af37]/5">
-        <div className="max-w-[80%] mx-auto px-8">
+        <div className="w-[90%] md:w-[80%] mx-auto px-3 md:px-8">
           <div className="flex justify-between items-end mb-12">
             <div className="space-y-2 text-left">
               <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] uppercase">{lang === 'ID' ? 'KATALOG' : 'CATALOG'}</p>
-              <h2 className="text-5xl font-luxury font-bold uppercase tracking-widest">{t.products.title}</h2>
+              <h2 className="normal-case text-4xl md:text-5xl font-luxury font-bold">{t.products.title}</h2>
             </div>
             <Link to="/products" className="text-[10px] font-bold tracking-[0.3em] text-[#d4af37] border-b border-[#d4af37]/30 pb-1 uppercase">
               {t.products.viewAll} <ChevronRight size={14} className="inline" />
@@ -223,18 +235,18 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {products.slice(0, 3).map((p) => (
-              <div key={p.id} className="group bg-[#0a0a0a] border border-white/5 rounded-[40px] p-6 hover:border-[#d4af37]/40 transition-all flex flex-col">
-                <div className="relative h-64 bg-[#111] rounded-[32px] overflow-hidden flex items-center justify-center p-8 mb-8">
+              <div key={p.id} className="group bg-[#0a0a0a] border border-white/5 rounded-[40px] p-6 hover:border-[#d4af37]/40 transition-all flex flex-col h-full">
+                <div className="relative h-80 bg-[#111] rounded-[32px] overflow-hidden flex items-center justify-center p-4 mb-8">
                   <div className="absolute top-4 left-4 z-20">
                     <span className="bg-black/80 backdrop-blur-md text-[#d4af37] border border-[#d4af37]/20 px-3 py-1 text-[8px] font-bold uppercase tracking-widest rounded-full">{p.category}</span>
                   </div>
-                  <img src={p.image_path} className="h-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-700" alt={p.name} />
+                  <img src={p.image_path} className="h-full w-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-700" alt={p.name} />
                 </div>
-                <div className="space-y-4 flex-1 text-left">
-                  <h3 className="text-2xl font-luxury font-bold group-hover:gold-text transition-colors uppercase">{p.name}</h3>
-                  <p className="text-gray-500 text-sm line-clamp-2">{p.description}</p>
+                <div className="space-y-4 flex-1 flex flex-col text-left">
+                  <h3 className="text-2xl font-luxury font-bold group-hover:gold-text transition-colors uppercase leading-tight">{p.name}</h3>
+                  <p className="text-gray-500 text-sm line-clamp-2 flex-1">{p.description}</p>
                   <div className="flex flex-wrap gap-2 pt-2">
-                    {p.features.map(f => <span key={f} className="text-[9px] font-bold text-gray-500 border border-white/10 px-3 py-1 rounded-full uppercase">{f}</span>)}
+                    {p.features.slice(0, 3).map(f => <span key={f} className="text-[9px] font-bold text-gray-500 border border-white/10 px-3 py-1 rounded-full uppercase">{f}</span>)}
                   </div>
                   <Link to={`/product/${p.slug}`} className="block text-center py-4 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold tracking-widest uppercase hover:bg-[#d4af37] hover:text-[#0a0a0a] transition-all mt-6">
                     {lang === 'ID' ? 'LIHAT DETAIL' : 'VIEW DETAILS'}
@@ -248,11 +260,11 @@ const Home: React.FC = () => {
 
       {/* LAYANAN KAMI */}
       <section className="py-12 bg-[#050505] border-b border-white/5">
-        <div className="max-w-[80%] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="w-[90%] md:w-[80%] mx-auto px-3 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6 text-left">
             <div className="space-y-4">
               <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] uppercase">{t.layanan.title}</p>
-              <h2 className="text-4xl font-luxury font-bold leading-tight">{t.layanan.sub}</h2>
+              <h2 className="normal-case text-4xl md:text-5xl font-luxury font-bold leading-tight">{t.layanan.sub}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {t.layanan.items.map((item, i) => (
@@ -270,24 +282,26 @@ const Home: React.FC = () => {
       </section>
 
       {/* PORTOFOLIO */}
-      <section id="portfolio" className="py-12 max-w-[80%] mx-auto">
-        <div className="flex justify-between items-end mb-12 px-8">
+      <section id="portfolio" className="py-12 w-[90%] md:w-[80%] mx-auto px-3 md:px-8">
+        <div className="flex justify-between items-end mb-12">
           <div className="space-y-2 text-left">
             <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] uppercase">{t.portfolio.title}</p>
-            <h2 className="text-3xl font-luxury font-bold uppercase">{t.portfolio.sub}</h2>
+            <h2 className="normal-case text-4xl md:text-5xl font-luxury font-bold">{t.portfolio.sub}</h2>
           </div>
           <Link to="/portfolio" className="text-[10px] font-bold tracking-[0.3em] text-[#d4af37] border-b border-[#d4af37]/30 pb-1 uppercase">
             {lang === 'ID' ? 'LIHAT SEMUA' : 'VIEW ALL'}
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 px-8 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
           {portfolios.slice(0, 3).map((item) => (
-            <Link to={`/portfolio/${item.slug}`} key={item.id} className="group flex flex-col">
+            <Link to={`/portfolio/${item.slug}`} key={item.id} className="group flex flex-col h-full">
               <div className="aspect-[16/11] overflow-hidden rounded-3xl mb-8 w-full border border-white/5 bg-[#111]">
                 <img src={item.image_path} className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-all duration-1000" alt={item.title} />
               </div>
-              <h3 className="text-2xl font-luxury font-bold group-hover:gold-text uppercase">{item.title}</h3>
-              <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase opacity-80 mt-2">{item.location}</p>
+              <div className="flex-1 flex flex-col">
+                <h3 className="text-xl md:text-2xl font-luxury font-bold group-hover:gold-text uppercase leading-tight line-clamp-2">{item.title}</h3>
+                <p className="text-gray-500 text-[10px] font-bold tracking-widest uppercase opacity-80 mt-auto pt-2">{item.location}</p>
+              </div>
             </Link>
           ))}
         </div>
@@ -295,11 +309,11 @@ const Home: React.FC = () => {
 
       {/* AWARDS */}
       <section className="py-12 bg-black/50 border-y border-[#d4af37]/10">
-        <div className="max-w-[80%] mx-auto px-8">
+        <div className="w-[90%] md:w-[80%] mx-auto px-3 md:px-8">
           <div className="flex justify-between items-end mb-12">
             <div className="space-y-2 text-left">
               <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] uppercase">AWARDS</p>
-              <h2 className="text-4xl font-luxury font-bold uppercase">{t.awards.sub}</h2>
+              <h2 className="normal-case text-4xl md:text-5xl font-luxury font-bold">{t.awards.sub}</h2>
             </div>
             <Link to="/awards" className="text-[10px] font-bold tracking-[0.3em] text-[#d4af37] border-b border-[#d4af37]/30 pb-1 uppercase">
               {lang === 'ID' ? 'LIHAT SEMUA' : 'VIEW ALL'}
@@ -319,44 +333,42 @@ const Home: React.FC = () => {
       </section>
 
       {/* TESTIMONI - Manual Slider */}
-      <section className="py-12 max-w-[80%] mx-auto px-8">
-        <div className="flex justify-between items-end mb-12">
+      <section className="py-12 w-[90%] md:w-[80%] mx-auto px-3 md:px-8">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-6 md:gap-0">
           <div className="space-y-2 text-left">
             <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] uppercase">{t.testi.title}</p>
-            <h2 className="text-3xl font-luxury font-bold uppercase">{t.testi.sub}</h2>
+            <h2 className="normal-case text-4xl md:text-5xl font-luxury font-bold">{t.testi.sub}</h2>
           </div>
-          <div className="flex gap-4">
-            <button onClick={prevTesti} disabled={testiIndex === 0} className="w-12 h-12 rounded-full border border-[#d4af37]/30 flex items-center justify-center text-[#d4af37] hover:bg-[#d4af37]/10 disabled:opacity-30 transition-all">
-              <ChevronLeft size={24} />
-            </button>
-            <button onClick={nextTesti} disabled={testiIndex + 3 >= testimonials.length} className="w-12 h-12 rounded-full border border-[#d4af37]/30 flex items-center justify-center text-[#d4af37] hover:bg-[#d4af37]/10 disabled:opacity-30 transition-all">
-              <ChevronRight size={24} />
-            </button>
-          </div>
+          {testimonials.length > itemsToShow && (
+            <div className="flex gap-4">
+              <button onClick={prevTesti} disabled={testiIndex === 0} className="w-12 h-12 rounded-full border border-[#d4af37]/30 flex items-center justify-center text-[#d4af37] hover:bg-[#d4af37]/10 disabled:opacity-30 transition-all">
+                <ChevronLeft size={24} />
+              </button>
+              <button onClick={nextTesti} disabled={testiIndex + itemsToShow >= testimonials.length} className="w-12 h-12 rounded-full border border-[#d4af37]/30 flex items-center justify-center text-[#d4af37] hover:bg-[#d4af37]/10 disabled:opacity-30 transition-all">
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {visibleTestimonials.map((item) => {
-            const truncatedContent = item.content.length > 150
-              ? item.content.substring(0, 150) + '...'
-              : item.content;
-
             return (
-              <div key={item.id} className="flex flex-col text-left group">
+              <div key={item.id} className="flex flex-col text-left group bg-[#0a0a0a] md:bg-[#111] p-8 md:p-10 rounded-3xl border border-white/5 h-full transition-all hover:border-[#d4af37]/20">
                 <div className="flex gap-1 mb-6">
                   {[1, 2, 3, 4, 5].map(star => <Star key={star} size={14} fill="#d4af37" className="text-[#d4af37]" />)}
                 </div>
-                <blockquote className="text-lg font-light leading-relaxed text-gray-300 italic mb-8">
-                  "{truncatedContent}"
+                <blockquote className="text-base md:text-lg font-light leading-relaxed text-gray-300 italic mb-8 flex-1 line-clamp-6">
+                  "{item.content}"
                 </blockquote>
-                <div className="w-full h-[1px] bg-[#d4af37] opacity-30 mb-8"></div>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10 grayscale group-hover:grayscale-0 transition-all">
+                <div className="w-full h-[1px] bg-[#d4af37] opacity-20 mb-8"></div>
+                <div className="flex items-center gap-3 md:gap-5 mt-auto">
+                  <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border border-white/10 grayscale group-hover:grayscale-0 transition-all shrink-0">
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-white uppercase tracking-widest">{item.name}</p>
-                    <p className="text-[12px] text-[#d4af37] italic mt-0.5">{item.role} — {item.company}</p>
+                  <div className="min-w-0">
+                    <p className="text-xs md:text-sm font-bold text-white uppercase tracking-widest truncate">{item.name}</p>
+                    <p className="text-[10px] md:text-[12px] text-[#d4af37] italic mt-0.5 truncate">{item.role} — {item.company}</p>
                   </div>
                 </div>
               </div>
@@ -366,10 +378,10 @@ const Home: React.FC = () => {
       </section>
 
       {/* FAQ - 2 COLUMN GRID */}
-      <section className="py-12 max-w-[80%] mx-auto px-8 border-b border-white/5">
+      <section className="py-12 w-[90%] md:w-[80%] mx-auto px-3 md:px-8 border-b border-white/5">
         <div className="text-center mb-12 space-y-4">
-          <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] uppercase">{t.faq.title}</p>
-          <h2 className="text-4xl font-luxury font-bold uppercase">{t.faq.sub}</h2>
+          <p className="text-[#d4af37] text-xs font-thin tracking-[0.5em] uppercase">{t.faq.title}</p>
+          <h2 className="normal-case text-3xl md:text-4xl font-luxury font-bold">{t.faq.sub}</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
           {faqs.map((f, i) => (
@@ -378,11 +390,11 @@ const Home: React.FC = () => {
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-center justify-between p-6 bg-[#111] hover:bg-[#161616] transition-all text-left"
               >
-                <span className="font-bold text-[13px] tracking-wide uppercase">{f.q}</span>
-                {openFaq === i ? <Minus size={16} className="text-[#d4af37]" /> : <Plus size={16} className="text-[#d4af37]" />}
+                <span className="font-semibold text-lg md:text-xl normal-case tracking-tight">{f.q}</span>
+                {openFaq === i ? <Minus size={20} className="text-[#d4af37]" /> : <Plus size={20} className="text-[#d4af37]" />}
               </button>
               {openFaq === i && (
-                <div className="p-6 bg-black text-gray-400 text-sm font-light leading-relaxed border-t border-white/5">
+                <div className="p-6 bg-black text-gray-400 text-base font-light leading-relaxed border-t border-white/5">
                   {f.a}
                 </div>
               )}
@@ -392,28 +404,34 @@ const Home: React.FC = () => {
       </section>
 
       {/* ARTIKEL */}
-      <section id="insights" className="py-12 px-8 max-w-[80%] mx-auto">
+      <section id="insights" className="py-12 w-[90%] md:w-[80%] mx-auto px-3 md:px-8">
         <div className="flex justify-between items-end mb-12">
           <div className="space-y-2 text-left">
-            <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] uppercase">{lang === 'ID' ? 'ARTIKEL' : 'ARTICLES'}</p>
-            <h2 className="text-5xl font-luxury font-bold uppercase">ARTIKEL TERBARU</h2>
+            <p className="text-[#d4af37] text-xs font-bold tracking-[0.5em] uppercase">{t.articleList.title}</p>
+            <h2 className="normal-case text-4xl md:text-5xl font-luxury font-bold">{t.articleList.sub}</h2>
           </div>
           <Link to="/articles" className="text-[10px] font-bold tracking-[0.3em] text-[#d4af37] border-b border-[#d4af37]/30 pb-1 uppercase">
-            LIHAT SEMUA
+            {lang === 'ID' ? 'LIHAT SEMUA' : 'VIEW ALL'}
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-left">
           {articles.slice(0, 3).map((article) => (
             <Link to={`/article/${article.slug}`} key={article.id} className="group block">
               <div className="space-y-4">
-                <p className="text-[11px] text-gray-500 font-sans tracking-widest uppercase">{new Date(article.created_at).getFullYear()}</p>
-                <h3 className="text-2xl font-luxury text-white group-hover:text-[#d4af37] transition-colors leading-snug uppercase">
+                <div className="flex items-center gap-3">
+                  <span className="text-[10px] text-[#d4af37] font-bold tracking-widest uppercase">{new Date(article.created_at).toLocaleDateString(lang === 'ID' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                </div>
+                <h3 className="text-2xl font-luxury text-white group-hover:text-[#d4af37] transition-colors leading-snug normal-case">
                   {article.title}
                 </h3>
-                <p className="text-gray-500 text-sm font-sans line-clamp-2 leading-relaxed">
+                <p className="text-gray-500 text-base font-light line-clamp-3 leading-relaxed">
                   {article.excerpt}
                 </p>
-
+                <div className="pt-2">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-[#d4af37] border-b border-[#d4af37]/30 pb-1 uppercase group-hover:border-[#d4af37] transition-all">
+                    {lang === 'ID' ? 'BACA SELENGKAPNYA' : 'READ MORE'}
+                  </span>
+                </div>
               </div>
             </Link>
           ))}

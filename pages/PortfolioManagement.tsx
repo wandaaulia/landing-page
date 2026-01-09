@@ -4,6 +4,8 @@ import { Plus, Search, Edit2, Trash2, MapPin, X, Image as ImageIcon } from 'luci
 import { Portfolio } from '../types';
 import { supabase } from '../services/supabase';
 
+const PORTFOLIO_CATEGORIES = ['Industrial', 'Healthcare', 'Commercial', 'Residential'];
+
 const PortfolioManagement: React.FC = () => {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [loading, setLoading] = useState(true);
@@ -207,8 +209,8 @@ const PortfolioManagement: React.FC = () => {
     ? portfolios
     : portfolios.filter(p => p.category === categoryFilter);
 
-  // Get unique categories from portfolios
-  const categories = ['All', ...Array.from(new Set(portfolios.map(p => p.category)))];
+  // Use centralized categories
+  const categories = ['All', ...PORTFOLIO_CATEGORIES];
 
   // Count portfolios per category
   const getCategoryCount = (category: string) => {
@@ -344,29 +346,29 @@ const PortfolioManagement: React.FC = () => {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Title</label>
-                  <input value={current.title || ''} onChange={e => setCurrent({...current, title: e.target.value})} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none" required />
+                  <input value={current.title || ''} onChange={e => setCurrent({ ...current, title: e.target.value })} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-[#d4af37] focus:outline-none" required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Category</label>
-                    <select value={current.category || ''} onChange={e => setCurrent({...current, category: e.target.value})} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm">
-                      <option value="Residential">Residential</option>
-                      <option value="Commercial">Commercial</option>
-                      <option value="Industrial">Industrial</option>
+                    <select value={current.category || ''} onChange={e => setCurrent({ ...current, category: e.target.value })} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm">
+                      {PORTFOLIO_CATEGORIES.map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Location</label>
-                    <input value={current.location || ''} onChange={e => setCurrent({...current, location: e.target.value})} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm" />
+                    <input value={current.location || ''} onChange={e => setCurrent({ ...current, location: e.target.value })} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Project Summary</label>
-                  <textarea value={current.summary || ''} onChange={e => setCurrent({...current, summary: e.target.value})} rows={4} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm resize-none"></textarea>
+                  <textarea value={current.summary || ''} onChange={e => setCurrent({ ...current, summary: e.target.value })} rows={4} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm resize-none"></textarea>
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Products Used</label>
-                  <input value={current.products_used || ''} onChange={e => setCurrent({...current, products_used: e.target.value})} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm" placeholder="e.g., VRV A Series, AHU Custom" />
+                  <input value={current.products_used || ''} onChange={e => setCurrent({ ...current, products_used: e.target.value })} className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm" placeholder="e.g., VRV A Series, AHU Custom" />
                 </div>
               </div>
               <div className="space-y-6">

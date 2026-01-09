@@ -179,6 +179,8 @@ export interface Product {
   image_path: string;
   description: string;
   features: string[];
+  detailed_features?: { name: string; desc: string }[];
+  ideal_applications?: { icon: string; title: string; desc: string }[];
   created_at?: string;
   updated_at?: string;
 }
@@ -756,7 +758,15 @@ export const mockData = {
       category: 'Commercial Air Conditioning',
       image_path: 'https://www.daikin.co.id/storage/product/1623136585-VRV_A.png',
       description: 'Sistem tata udara sentral tercanggih dengan teknologi inverter variabel untuk efisiensi maksimal pada gedung bertingkat.',
-      features: ['VRT Technology', 'BACnet Integration', 'Auto-Refill']
+      features: ['VRT Technology', 'BACnet Integration', 'Auto-Refill'],
+      detailed_features: [
+        { name: 'VRT Technology', desc: 'Variable Refrigerant Temperature memastikan penghematan energi hingga 28%.' },
+        { name: 'BACnet Integration', desc: 'Dapat diintegrasikan dengan sistem manajemen gedung pihak ketiga.' }
+      ],
+      ideal_applications: [
+        { icon: 'Building2', title: 'High-Rise Office', desc: 'Sistem sentral untuk beban panas gedung bertingkat.' },
+        { icon: 'Hospital', title: 'Healthcare', desc: 'Hygienic cooling untuk ruang steril dan bedah.' }
+      ]
     },
     {
       id: 2,
@@ -975,10 +985,10 @@ export const translations = {
   ID: {
     nav: { home: 'HOME', about: 'TENTANG KAMI', products: 'PRODUCTS', portfolio: 'PORTFOLIO', articles: 'ARTIKEL', contact: 'KONTAK' },
     hero: { title: 'Daikin Proshop Expertise.', sub: 'Menghadirkan kenyamanan udara kelas dunia untuk ruko, gedung dan hunian mewah selama lebih dari 3 dekade.' },
-    products: { title: 'PRODUK UNGGULAN', viewAll: 'LIHAT SEMUA' },
+    products: { title: 'Produk Unggulan', viewAll: 'LIHAT SEMUA' },
     layanan: {
-      title: 'LAYANAN KAMI',
-      sub: 'Mencari layanan HVAC terbaik untuk kebutuhan bisnis Anda?',
+      title: 'LAYANAN',
+      sub: 'Solusi HVAC Kami',
       items: [
         'HVAC consultation & system planning',
         'Custom HVAC system design',
@@ -988,11 +998,11 @@ export const translations = {
         'Technical support for large-scale projects'
       ]
     },
-    portfolio: { title: 'PORTOFOLIO', sub: 'Temukan solusi untuk setiap segmen pasar' },
-    awards: { title: 'PENGHARGAAN', sub: 'Bukti komitmen kami', viewAll: 'LIHAT SEMUA' },
+    portfolio: { title: 'PORTOFOLIO', sub: 'Hasil Layanan Kami' },
+    awards: { title: 'PENGHARGAAN', sub: 'Bukti Komitmen Kami', viewAll: 'LIHAT SEMUA' },
     testi: { title: 'TESTIMONI', sub: 'Apa Kata Klien Kami' },
-    faq: { title: 'FAQ', sub: 'Pertanyaan umum seputar layanan kami' },
-    articleList: { title: 'ARTIKEL', sub: 'Wawasan dan tips untuk proyek HVAC Anda' },
+    faq: { title: 'FAQ', sub: 'Pertanyaan Umum Seputar Layanan Kami' },
+    articleList: { title: 'ARTIKEL', sub: 'Wawasan dan Tips HVAC' },
     footer: { navigasi: 'NAVIGASI', businessHours: 'JAM OPERASIONAL: SENIN - JUMAT, 09:00 - 17:00' },
     contact: {
       title: 'HUBUNGI SPESIALIS KAMI',
@@ -1002,10 +1012,10 @@ export const translations = {
   EN: {
     nav: { home: 'HOME', about: 'ABOUT US', products: 'PRODUCTS', portfolio: 'PORTFOLIO', articles: 'ARTICLES', contact: 'CONTACT' },
     hero: { title: 'Daikin Proshop Expertise.', sub: 'Delivering world-class air comfort for shops, buildings and luxury homes for over 3 decades.' },
-    products: { title: 'FEATURED PRODUCTS', viewAll: 'VIEW ALL' },
+    products: { title: 'Featured Products', viewAll: 'VIEW ALL' },
     layanan: {
       title: 'OUR SERVICES',
-      sub: 'Looking for the best HVAC services for your business needs?',
+      sub: 'Our HVAC Solutions',
       items: [
         'HVAC consultation & system planning',
         'Custom HVAC system design',
@@ -1015,11 +1025,11 @@ export const translations = {
         'Technical support for large-scale projects'
       ]
     },
-    portfolio: { title: 'PORTFOLIO', sub: 'Discover solutions for every market segment' },
-    awards: { title: 'AWARDS', sub: 'Proof of our commitment', viewAll: 'VIEW ALL' },
+    portfolio: { title: 'PORTFOLIO', sub: 'Our Completed Projects' },
+    awards: { title: 'AWARDS', sub: 'Proof of Our Commitment', viewAll: 'VIEW ALL' },
     testi: { title: 'TESTIMONIALS', sub: 'What Our Clients Say' },
-    faq: { title: 'FAQ', sub: 'Frequently asked questions about our services' },
-    articleList: { title: 'ARTICLES', sub: 'Insights and tips for your HVAC projects' },
+    faq: { title: 'FAQ', sub: 'Frequently Asked Questions About Our Services' },
+    articleList: { title: 'ARTICLES', sub: 'Insights and Tips for Your HVAC Projects' },
     footer: { navigasi: 'NAVIGATION', businessHours: 'BUSINESS HOURS: MON - FRI, 09:00 - 17:00' },
     contact: {
       title: 'CONTACT OUR SPECIALISTS',

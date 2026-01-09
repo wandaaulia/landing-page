@@ -9,22 +9,22 @@ const PublicFooter: React.FC = () => {
   const t = translations[lang];
 
   return (
-    <footer className="bg-black pt-32 pb-16 border-t border-white/5">
+    <footer className="bg-black pt-8 md:pt-16 pb-16 border-t border-white/5">
       <div className="max-w-[80%] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-20 mb-20">
           <div className="col-span-1 md:col-span-2 space-y-8">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 gold-gradient rounded-full flex items-center justify-center text-[#0a0a0a] font-bold font-luxury text-2xl">D</div>
               <div>
-                 <h4 className="font-luxury font-bold tracking-[0.2em] text-xl">DAIKIN PROSHOP</h4>
-                 <p className="text-[8px] text-[#d4af37] uppercase tracking-[0.3em] font-bold">PT. CIPTA SEJAHTERA LESTARI</p>
+                <h4 className="font-luxury font-bold tracking-[0.2em] text-xl">DAIKIN PROSHOP</h4>
+                <p className="text-[8px] text-[#d4af37] uppercase tracking-[0.3em] font-bold">PT. CIPTA SEJAHTERA LESTARI</p>
               </div>
             </div>
             <p className="text-gray-500 text-base max-w-sm font-light leading-relaxed">
               Dealer Daikin Proshop pertama di Indonesia. Melayani kebutuhan HVAC residensial, komersial, dan industri dengan standar engineering kelas dunia.
             </p>
             <p className="text-[#d4af37] text-[10px] font-bold tracking-[0.2em] uppercase">
-              {t.footer.businessHours}
+              {t.footer.businessHours.split(': ')[0]}: <span className="block md:inline">{t.footer.businessHours.split(': ')[1]}</span>
             </p>
           </div>
           <div className="space-y-8 text-left">

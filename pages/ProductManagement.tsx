@@ -4,6 +4,8 @@ import { Plus, Edit2, Trash2, Image as ImageIcon, X } from 'lucide-react';
 import { Product } from '../types';
 import { supabase } from '../services/supabase';
 
+const PRODUCT_CATEGORIES = ['Residential', 'Commercial', 'Industri Cooling', 'IAQ Solutions', 'Automation'];
+
 const ProductManagement: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -126,9 +128,11 @@ const ProductManagement: React.FC = () => {
         name: currentProduct.name,
         slug: slug,
         description: currentProduct.description || '',
-        category: currentProduct.category || 'Single-Split',
+        category: currentProduct.category,
         image_path: imagePath,
-        features: currentProduct.features || []
+        features: currentProduct.features || [],
+        detailed_features: currentProduct.detailed_features || [],
+        ideal_applications: currentProduct.ideal_applications || []
       };
 
       if (currentProduct.id) {
@@ -202,8 +206,8 @@ const ProductManagement: React.FC = () => {
     ? products
     : products.filter(p => p.category === categoryFilter);
 
-  // Get unique categories from products
-  const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
+  // Use centralized categories
+  const categories = ['All', ...PRODUCT_CATEGORIES];
 
   // Count products per category
   const getCategoryCount = (category: string) => {
@@ -347,9 +351,9 @@ const ProductManagement: React.FC = () => {
                     onChange={(e) => setCurrentProduct({ ...currentProduct, category: e.target.value })}
                     className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
                   >
-                    <option value="Residential">Residential</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="Industrial Cooling">Industrial Cooling</option>
+                    {PRODUCT_CATEGORIES.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -366,15 +370,142 @@ const ProductManagement: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Features (comma separated)</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Features (tags, comma separated)</label>
                 <input
                   type="text"
                   value={currentProduct.features?.join(', ') || ''}
                   onChange={(e) => setCurrentProduct({ ...currentProduct, features: e.target.value.split(',').map(f => f.trim()).filter(Boolean) })}
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#d4af37]"
-                  placeholder="e.g., VRT Technology, BACnet Integration, Auto-Refill"
+                  placeholder="e.g., VRT Technology, BACnet Integration"
                 />
-                <p className="text-[10px] text-gray-500 mt-1">Separate features with commas</p>
+              </div>
+
+              {/* Detailed Features */}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Detailed Features (Rich Info)</label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const df = currentProduct.detailed_features || [];
+                      setCurrentProduct({ ...currentProduct, detailed_features: [...df, { name: '', desc: '' }] });
+                    }}
+                    className="text-[10px] gold-text font-bold border border-[#d4af37]/30 px-3 py-1 rounded-full hover:bg-[#d4af37]/10"
+                  >
+                    + ADD FEATURE
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {(currentProduct.detailed_features || []).map((f, idx) => (
+                    <div key={idx} className="bg-[#0a0a0a] p-4 rounded-xl border border-white/5 space-y-3 relative group">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const df = [...(currentProduct.detailed_features || [])];
+                          df.splice(idx, 1);
+                          setCurrentProduct({ ...currentProduct, detailed_features: df });
+                        }}
+                        className="absolute top-2 right-2 text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={14} />
+                      </button>
+                      <input
+                        placeholder="Feature Name"
+                        value={f.name}
+                        onChange={(e) => {
+                          const df = [...(currentProduct.detailed_features || [])];
+                          df[idx].name = e.target.value;
+                          setCurrentProduct({ ...currentProduct, detailed_features: df });
+                        }}
+                        className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs focus:ring-1 focus:ring-[#d4af37] outline-none"
+                      />
+                      <textarea
+                        placeholder="Feature Description"
+                        rows={2}
+                        value={f.desc}
+                        onChange={(e) => {
+                          const df = [...(currentProduct.detailed_features || [])];
+                          df[idx].desc = e.target.value;
+                          setCurrentProduct({ ...currentProduct, detailed_features: df });
+                        }}
+                        className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs focus:ring-1 focus:ring-[#d4af37] outline-none resize-none"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Ideal Applications */}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Ideal Applications</label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const ia = currentProduct.ideal_applications || [];
+                      setCurrentProduct({ ...currentProduct, ideal_applications: [...ia, { icon: 'Building2', title: '', desc: '' }] });
+                    }}
+                    className="text-[10px] gold-text font-bold border border-[#d4af37]/30 px-3 py-1 rounded-full hover:bg-[#d4af37]/10"
+                  >
+                    + ADD SCENARIO
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {(currentProduct.ideal_applications || []).map((s, idx) => (
+                    <div key={idx} className="bg-[#0a0a0a] p-4 rounded-xl border border-white/5 space-y-3 relative group">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const ia = [...(currentProduct.ideal_applications || [])];
+                          ia.splice(idx, 1);
+                          setCurrentProduct({ ...currentProduct, ideal_applications: ia });
+                        }}
+                        className="absolute top-2 right-2 text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={14} />
+                      </button>
+                      <div className="flex gap-3">
+                        <select
+                          value={s.icon}
+                          onChange={(e) => {
+                            const ia = [...(currentProduct.ideal_applications || [])];
+                            ia[idx].icon = e.target.value;
+                            setCurrentProduct({ ...currentProduct, ideal_applications: ia });
+                          }}
+                          className="bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs text-[#d4af37] outline-none"
+                        >
+                          <option value="Building2">Building</option>
+                          <option value="Hospital">Hospital</option>
+                          <option value="Hotel">Hotel</option>
+                          <option value="Home">Home</option>
+                          <option value="Factory">Factory</option>
+                          <option value="Zap">Zap</option>
+                        </select>
+                        <input
+                          placeholder="Scenario Title"
+                          value={s.title}
+                          onChange={(e) => {
+                            const ia = [...(currentProduct.ideal_applications || [])];
+                            ia[idx].title = e.target.value;
+                            setCurrentProduct({ ...currentProduct, ideal_applications: ia });
+                          }}
+                          className="flex-1 bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs focus:ring-1 focus:ring-[#d4af37] outline-none"
+                        />
+                      </div>
+                      <textarea
+                        placeholder="Usage Description"
+                        rows={2}
+                        value={s.desc}
+                        onChange={(e) => {
+                          const ia = [...(currentProduct.ideal_applications || [])];
+                          ia[idx].desc = e.target.value;
+                          setCurrentProduct({ ...currentProduct, ideal_applications: ia });
+                        }}
+                        className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-xs focus:ring-1 focus:ring-[#d4af37] outline-none resize-none"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -397,7 +528,6 @@ const ProductManagement: React.FC = () => {
                     </div>
                   )}
                   <p className="text-sm font-bold">{imagePreview ? 'Click to change image' : 'Drop files here or click to upload'}</p>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Recommended size: 1200 x 900 px</p>
                 </label>
               </div>
 
@@ -406,14 +536,14 @@ const ProductManagement: React.FC = () => {
                   type="button"
                   onClick={() => setIsEditing(false)}
                   disabled={isSaving}
-                  className="flex-1 py-4 bg-transparent border border-[#d4af37]/30 rounded-xl text-[#d4af37] font-bold tracking-widest hover:bg-[#d4af37]/5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-4 bg-transparent border border-[#d4af37]/30 rounded-xl text-[#d4af37] font-bold tracking-widest hover:bg-[#d4af37]/5 transition-all uppercase text-xs"
                 >
                   CANCEL
                 </button>
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="flex-1 py-4 gold-gradient rounded-xl text-[#0a0a0a] font-bold tracking-widest hover:brightness-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 py-4 gold-gradient rounded-xl text-[#0a0a0a] font-bold tracking-widest hover:brightness-110 shadow-lg uppercase text-xs flex items-center justify-center gap-2"
                 >
                   {isSaving ? (
                     <>
@@ -426,10 +556,10 @@ const ProductManagement: React.FC = () => {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
+          </div >
+        </div >
       )}
-    </div>
+    </div >
   );
 };
 

@@ -138,7 +138,7 @@ const AboutManagement: React.FC = () => {
       setIsSaving(false);
     }
   };
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -182,9 +182,8 @@ const AboutManagement: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`flex items-center gap-2 pb-4 text-sm font-bold tracking-widest transition-all relative ${
-              activeTab === tab.id ? 'text-[#d4af37]' : 'text-gray-500 hover:text-gray-300'
-            }`}
+            className={`flex items-center gap-2 pb-4 text-sm font-bold tracking-widest transition-all relative ${activeTab === tab.id ? 'text-[#d4af37]' : 'text-gray-500 hover:text-gray-300'
+              }`}
           >
             {tab.icon}
             {tab.name.toUpperCase()}
@@ -204,11 +203,11 @@ const AboutManagement: React.FC = () => {
                 <textarea
                   className="w-full bg-[#0a0a0a] border border-[#d4af37]/10 rounded-2xl p-6 text-sm text-gray-300 leading-relaxed focus:outline-none focus:ring-1 focus:ring-[#d4af37] min-h-[400px]"
                   value={aboutData.content}
-                  onChange={(e) => setAboutData({...aboutData, content: e.target.value})}
+                  onChange={(e) => setAboutData({ ...aboutData, content: e.target.value })}
                 ></textarea>
               </div>
             </div>
-            
+
             <div className="space-y-6">
               <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Featured Profile Image</label>
               <input
@@ -251,14 +250,14 @@ const AboutManagement: React.FC = () => {
                 <div key={year} className="bg-[#0a0a0a] p-6 rounded-2xl border border-[#d4af37]/10 flex items-start gap-8 group hover:border-[#d4af37]/40 transition-all">
                   <div className="text-3xl font-luxury font-bold gold-text opacity-50">{year}</div>
                   <div className="flex-1 space-y-2">
-                    <input 
-                      type="text" 
-                      placeholder="Title of event" 
-                      className="w-full bg-transparent border-none p-0 focus:ring-0 text-white font-bold text-lg" 
+                    <input
+                      type="text"
+                      placeholder="Title of event"
+                      className="w-full bg-transparent border-none p-0 focus:ring-0 text-white font-bold text-lg"
                       defaultValue={year === 2024 ? "National Recognition Excellence" : "Operational Expansion"}
                     />
-                    <textarea 
-                      placeholder="Detailed description..." 
+                    <textarea
+                      placeholder="Detailed description..."
                       className="w-full bg-transparent border-none p-0 focus:ring-0 text-gray-400 text-sm resize-none"
                       rows={2}
                       defaultValue="Awarded by Daikin Global for exceptional service standards and customer satisfaction indices in the Southeast Asian region."
@@ -275,23 +274,23 @@ const AboutManagement: React.FC = () => {
 
         {activeTab === 'achievements' && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <div className="border-2 border-dashed border-[#d4af37]/10 rounded-2xl flex items-center justify-center aspect-square text-[#d4af37]/40 hover:text-[#d4af37] hover:bg-[#d4af37]/5 transition-all cursor-pointer">
-               <Plus size={48} />
-             </div>
-             {[1,2,3].map(i => (
-               <div key={i} className="relative group aspect-square rounded-2xl overflow-hidden border border-[#d4af37]/10 bg-[#0a0a0a]">
-                 <img src={`https://picsum.photos/seed/award${i}/400/400`} alt="Award" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
-                   <p className="text-xs text-[#d4af37] font-bold">202{i}</p>
-                   <p className="text-sm font-bold uppercase tracking-widest mt-1">Elite Dealer Award</p>
-                 </div>
-                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className="bg-red-500/20 text-red-400 p-2 rounded-full backdrop-blur-md">
-                      <Trash2 size={16} />
-                    </button>
-                 </div>
-               </div>
-             ))}
+            <div className="border-2 border-dashed border-[#d4af37]/10 rounded-2xl flex items-center justify-center aspect-square text-[#d4af37]/40 hover:text-[#d4af37] hover:bg-[#d4af37]/5 transition-all cursor-pointer">
+              <Plus size={48} />
+            </div>
+            {[1, 2, 3].map(i => (
+              <div key={i} className="relative group aspect-square rounded-2xl overflow-hidden border border-[#d4af37]/10 bg-[#0a0a0a]">
+                <img src={`https://picsum.photos/seed/award${i}/400/400`} alt="Award" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
+                  <p className="text-xs text-[#d4af37] font-bold">202{i}</p>
+                  <p className="text-sm font-bold uppercase tracking-widest mt-1">Elite Dealer Award</p>
+                </div>
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="bg-red-500/20 text-red-400 p-2 rounded-full backdrop-blur-md">
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -301,13 +300,13 @@ const AboutManagement: React.FC = () => {
 
 const Plus = ({ size, className }: any) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M5 12h14m-7-7v14"/>
+    <path d="M5 12h14m-7-7v14" />
   </svg>
 );
 
 const Trash2 = ({ size, className }: any) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 9v4m4-4v4"/>
+    <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 9v4m4-4v4" />
   </svg>
 );
 

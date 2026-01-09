@@ -52,39 +52,39 @@ const PortfolioDetail: React.FC = () => {
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-white selection:bg-[#d4af37] selection:text-[#0a0a0a]">
       <PublicNavbar />
-      
-      <section className="pt-48 pb-12 px-8 max-w-[85%] mx-auto text-left">
+
+      <section className="pt-48 pb-12 w-[90%] md:w-[80%] mx-auto px-3 md:px-8 text-left">
         <Link to="/portfolio" className="inline-flex items-center gap-4 text-[#d4af37] text-[11px] font-bold tracking-[0.4em] uppercase mb-12 hover:gap-8 transition-all">
           <ArrowLeft size={18} /> KEMBALI KE PORTOFOLIO
         </Link>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           <div className="lg:col-span-2 space-y-10">
-            <div className="rounded-[40px] overflow-hidden aspect-[21/9] border border-white/5 bg-[#111] shadow-2xl">
+            <div className="rounded-[40px] overflow-hidden aspect-[16/11] border border-white/5 bg-[#111] shadow-2xl">
               <img src={project.image_path} className="w-full h-full object-cover" alt={project.title} />
             </div>
             <div className="space-y-6">
               <h1 className="text-5xl md:text-7xl font-luxury font-bold leading-tight uppercase tracking-tighter">{project.title}</h1>
               <p className="text-xl text-gray-400 font-light italic leading-relaxed border-l-4 border-[#d4af37]/40 pl-8">"{project.summary}"</p>
             </div>
-           
+
           </div>
-          
+
           <aside>
             <div className="p-10 bg-[#111] border border-[#d4af37]/20 rounded-[32px] space-y-8 sticky top-32 text-left shadow-2xl">
               <div className="space-y-1 border-b border-white/5 pb-6">
-                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">LOKASI PROYEK</span>
-                 <p className="text-lg font-bold flex items-center gap-3 mt-1 tracking-tight text-white"><MapPin size={18} className="text-[#d4af37]" /> {project.location}</p>
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">LOKASI PROYEK</span>
+                <p className="text-lg font-bold flex items-center gap-3 mt-1 tracking-tight text-white"><MapPin size={18} className="text-[#d4af37]" /> {project.location}</p>
               </div>
               <div className="space-y-1 border-b border-white/5 pb-6">
-                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">STATUS IMPLEMENTASI</span>
-                 <p className="text-lg font-bold text-green-400 uppercase tracking-widest mt-1">OPERASIONAL AKTIF</p>
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">STATUS IMPLEMENTASI</span>
+                <p className="text-lg font-bold text-green-400 uppercase tracking-widest mt-1">OPERASIONAL AKTIF</p>
               </div>
               <div className="space-y-1 border-b border-white/5 pb-6">
-                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">PRODUCTS DEPLOYED</span>
-                 <div className="flex items-center gap-3 mt-2">
-                   <Package size={18} className="text-[#d4af37] shrink-0" />
-                   <p className="text-base font-bold text-white uppercase leading-snug">{project.products_used}</p>
-                 </div>
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">PRODUCTS DEPLOYED</span>
+                <div className="flex items-center gap-3 mt-2">
+                  <Package size={18} className="text-[#d4af37] shrink-0" />
+                  <p className="text-base font-bold text-white uppercase leading-snug">{project.products_used}</p>
+                </div>
               </div>
               {/* Impact tracking removed as requested */}
               <a href="https://wa.me/62811102977" target="_blank" className="block text-center py-5 gold-gradient text-[#0a0a0a] font-bold rounded-2xl text-xs tracking-[0.2em] shadow-xl hover:scale-[1.02] transition-all uppercase">MINTA ANALISIS SERUPA</a>
@@ -93,9 +93,8 @@ const PortfolioDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* PROYEK SERUPA */}
       <section className="py-24 bg-[#050505] border-t border-white/5">
-        <div className="max-w-[85%] mx-auto px-8">
+        <div className="w-[90%] md:w-[80%] mx-auto px-3 md:px-8">
           <div className="text-left mb-16 space-y-2">
             <p className="text-[#d4af37] text-xs font-bold tracking-[0.5em] uppercase">Discovery</p>
             <h2 className="text-4xl font-luxury font-bold uppercase">{lang === 'ID' ? 'PROYEK SERUPA' : 'SIMILAR PROJECTS'}</h2>
